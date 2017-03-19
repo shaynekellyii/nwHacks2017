@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.nut.nwhacks.R;
+import com.nut.nwhacks.logtrip.TagListAdapter;
 import com.nut.nwhacks.settings.AddTagActivity;
 
 import java.util.ArrayList;
@@ -67,11 +68,12 @@ public class MainActivity extends AppCompatActivity {
         this.finish();
     }
 
-    public List<String> getTagList() {
+    public static List<String> getTagList() {
         return sTagList != null ? sTagList : new ArrayList<String>();
     }
 
     public static void refreshTagList() {
         sAdapter.notifyDataSetChanged();
     }
+
 }

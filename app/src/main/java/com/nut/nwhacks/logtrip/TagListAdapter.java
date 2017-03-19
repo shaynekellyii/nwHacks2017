@@ -1,4 +1,4 @@
-package com.nut.nwhacks.main;
+package com.nut.nwhacks.logtrip;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">nwHacks</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="create_notifications_activity">NotificationsActivity</string>
+    <string name="log_trip_activity">LogTripActivity</string>
+    <string name="log_your_trip">Log your trip</string>
+    <string name="submit_log_trip">Submit</string>
+    <string name="no_do_not_log_trip">No, do not log trip</string>
 </resources>
