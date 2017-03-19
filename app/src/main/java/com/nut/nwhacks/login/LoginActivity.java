@@ -1,5 +1,8 @@
 package com.nut.nwhacks.login;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.nut.nwhacks.R;
+import com.nut.nwhacks.logtrip.LogTripActivity;
 import com.nut.nwhacks.main.MainActivity;
 
 import io.moj.java.sdk.MojioClient;
@@ -25,14 +29,17 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     // Security lol
-    private static final String APP_ID = "5acebfc1-8f79-4753-860e-f761328f0a44";
-    private static final String SECRET_KEY = "93e7cc78-910b-4c5b-972a-7cac74d5f324";
-    private MojioClient mMojioClient;
+    private static final String APP_ID = "90067ba4-9fe3-4cb0-a312-797d53a266db";
+    private static final String SECRET_KEY = "9f0b87f2-cec4-4e2b-a017-fa4047f0be67";
+    private static final String BYPASS_USER = "skellyii@sfu.ca"; // DEBUG
+    private static final String BYPASS_PASSWORD = "123456"; // DEBUG
+    private static MojioClient mMojioClient;
 
     private ConstraintLayout mConstraintLayout;
-    private TextView mUsernameTextView;
-    private TextView mPasswordTextView;
+    private EditText mUsernameEditText;
+    private EditText mPasswordEditText;
     private Button mLoginButton;
+    private Button mLoginBypassButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,27 +48,43 @@ public class LoginActivity extends AppCompatActivity {
 
         applyViews();
 
-        mMojioClient = new MojioClient.Builder(APP_ID, SECRET_KEY).build();
+        mMojioClient = new MojioClient.Builder(APP_ID, SECRET_KEY).logging(true).build();
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
-                performLoginCall();
+                performLoginCall(false);
+            }
+        });
+        mLoginBypassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                performLoginCall(true);
             }
         });
     }
 
-    private void applyViews() {
-        mConstraintLayout = (ConstraintLayout)findViewById(R.id.login_constraintlayout);
-        mUsernameTextView = (TextView)findViewById(R.id.username_edittext);
-        mPasswordTextView = (TextView)findViewById(R.id.password_edittext);
-        mLoginButton = (Button) findViewById(R.id.login_button);
+    public static MojioClient getmMojioClient() {
+        return mMojioClient;
     }
 
-    private void performLoginCall() {
-        Call<User> loginCall = mMojioClient.login(
-                mUsernameTextView.getText().toString(), mPasswordTextView.getText().toString());
+    private void applyViews() {
+        mConstraintLayout = (ConstraintLayout)findViewById(R.id.login_constraintlayout);
+        mUsernameEditText = (EditText)findViewById(R.id.username_edittext);
+        mPasswordEditText = (EditText)findViewById(R.id.password_edittext);
+        mLoginButton = (Button)findViewById(R.id.login_button);
+        mLoginBypassButton = (Button)findViewById(R.id.login_bypass_button);
+    }
+
+    private void performLoginCall(boolean bypass) {
+        Call<User> loginCall;
+        if (bypass) {
+            loginCall = mMojioClient.login(BYPASS_USER, BYPASS_PASSWORD);
+        } else {
+            loginCall = mMojioClient.login(
+                    mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+        }
         loginCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -87,5 +110,27 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         this.finish();
+    }
+
+    public void createNotification(View view) {
+        // Prepare intent which is triggered if the
+        // notification is selected
+        Intent intent = new Intent(this, LogTripActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        // Build notification
+        // Actions are just fake
+        Notification noti = new Notification.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("You've finished a trip!")
+                .setContentText("Tag blah blah blah blah")
+                .setContentIntent(pIntent)
+                .addAction(R.mipmap.ic_launcher_round, "Action2", pIntent).build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // hide the notification after its selected
+        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notificationManager.notify(0, noti);
     }
 }

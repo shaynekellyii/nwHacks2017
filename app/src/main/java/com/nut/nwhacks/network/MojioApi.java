@@ -5,13 +5,10 @@ package com.nut.nwhacks.network;
  */
 
 import io.moj.java.sdk.model.VehicleMeasure;
-import io.moj.java.sdk.model.Vehicle;
 import io.moj.java.sdk.model.response.ListResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Body;
 import retrofit2.http.Query;
 
 
