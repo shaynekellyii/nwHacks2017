@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        startActivity(new Intent(this, SummaryActivity.class));
     }
 
     private void initializeViews() {
@@ -156,5 +154,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("the labels and values aren't the same length");
         }
+    }
+
+    public void startSummaryActivity(View view) {
+        startActivity(new Intent(this, SummaryActivity.class));
     }
 }
