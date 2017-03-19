@@ -35,8 +35,13 @@ public class SummaryActivity extends BaseActivity implements OnMapReadyCallback 
 //        RelativeLayout rel = (RelativeLayout) findViewById(R.id.summary_layout);
 //        Snackbar.make(rel, "Yo! Maps up.", Snackbar.LENGTH_LONG).show();
         // TODO: Get lat long from trip info
-        LatLng pos = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(pos).title("Trip Start"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        try {
+            LatLng pos = new LatLng(harshBrakeLocation.getLat(), harshBrakeLocation.getLng());
+
+            map.addMarker(new MarkerOptions().position(pos).title("Harsh Break"));
+            map.moveCamera(CameraUpdateFactory.newLatLng(pos));
+        } catch(Exception e) {
+            System.out.println("There was probably no harsh break.");
+        }
     }
 }
