@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nut.nwhacks.BaseActivity;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.summary.SummaryActivity;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TripListActivity extends AppCompatActivity {
+public class TripListActivity extends BaseActivity {
 
     private static final String TAG = TripListActivity.class.getSimpleName();
 

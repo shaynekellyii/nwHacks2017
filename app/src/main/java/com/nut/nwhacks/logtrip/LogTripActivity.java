@@ -1,6 +1,5 @@
 package com.nut.nwhacks.logtrip;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.nut.nwhacks.BaseActivity;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.main.MainActivity;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * Activity to ask if the user wants to log their trip
  */
 
-public class LogTripActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class LogTripActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
 
     private Button mLogTrip;
     private Spinner mTagSpinner;

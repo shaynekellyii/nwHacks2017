@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +15,7 @@ import android.widget.ListView;
 import com.db.chart.animation.Animation;
 import com.db.chart.model.LineSet;
 import com.db.chart.view.LineChartView;
+import com.nut.nwhacks.BaseActivity;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.logtrip.TagListAdapter;
 import com.nut.nwhacks.settings.AddTagActivity;
@@ -35,9 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.nut.nwhacks.login.LoginActivity.getMojioClient;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     /**
      * Figure out what we're doing in here
@@ -55,15 +53,13 @@ public class MainActivity extends AppCompatActivity {
     private Float[] mValues;
     private LineSet mDataSet;
     private static List<VehicleMeasure> mStates;
-    private static List<Trip> mTrips;
-    private static List<Vehicle> mVehicles;
-    private MojioClient mMojioClient;
+//    private static List<Trip> mTrips;
+//    private static List<Vehicle> mVehicles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getTagsFromPreferences();
-        mMojioClient = getMojioClient();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -180,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void getVehicles() {
+/*    public void getVehicles() {
         mMojioClient.rest().getVehicles().enqueue(new Callback<ListResponse<Vehicle>>() {
             @Override
             public void onResponse(Call<ListResponse<Vehicle>> call, Response<ListResponse<Vehicle>> response) {
@@ -218,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 
     public void getVehicleHistory() {
         mMojioClient.rest().getTripStates("457f5db7-e075-4f3a-8fdf-1442bc8ed5f1").enqueue(new Callback<ListResponse<VehicleMeasure>>() {

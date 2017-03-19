@@ -23,6 +23,10 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".BaseActivity">
+        </activity>
+
         <activity android:name=".settings.AddTagActivity">
         </activity>
 

@@ -1,5 +1,6 @@
 package com.nut.nwhacks.summary;
 
+import com.nut.nwhacks.BaseActivity;
 import com.nut.nwhacks.R;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -10,15 +11,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.CameraUpdateFactory;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-
-import android.widget.RelativeLayout;
-import android.support.design.widget.Snackbar;
 
 /**
  * This shows how to create a simple activity with a map and a marker on the map.
  */
-public class SummaryActivity extends AppCompatActivity  implements OnMapReadyCallback {
+public class SummaryActivity extends BaseActivity implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
