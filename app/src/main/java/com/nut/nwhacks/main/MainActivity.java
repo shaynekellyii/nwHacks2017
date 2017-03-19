@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startNewTagActivity() {
         startActivity(new Intent(this, AddTagActivity.class));
+        this.finish();
     }
 
     public List<String> getTagList() {
