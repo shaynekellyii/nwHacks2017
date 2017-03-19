@@ -29,11 +29,11 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     // Security lol
-    private static final String APP_ID = "5acebfc1-8f79-4753-860e-f761328f0a44";
-    private static final String SECRET_KEY = "93e7cc78-910b-4c5b-972a-7cac74d5f324";
+    private static final String APP_ID = "90067ba4-9fe3-4cb0-a312-797d53a266db";
+    private static final String SECRET_KEY = "9f0b87f2-cec4-4e2b-a017-fa4047f0be67";
     private static final String BYPASS_USER = "skellyii@sfu.ca"; // DEBUG
     private static final String BYPASS_PASSWORD = "123456"; // DEBUG
-    private MojioClient mMojioClient;
+    private static MojioClient mMojioClient;
 
     private ConstraintLayout mConstraintLayout;
     private EditText mUsernameEditText;
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
 
         applyViews();
 
-        mMojioClient = new MojioClient.Builder(APP_ID, SECRET_KEY).build();
+        mMojioClient = new MojioClient.Builder(APP_ID, SECRET_KEY).logging(true).build();
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
                 performLoginCall(true);
             }
         });
+    }
+
+    public static MojioClient getmMojioClient() {
+        return mMojioClient;
     }
 
     private void applyViews() {
@@ -86,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     // Success! Log the user in!
-                    Snackbar.make(mConstraintLayout, "Login successful.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mConstraintLayout, "Login successful @jefking", Snackbar.LENGTH_LONG).show();
                     goToMainActivity();
                 } else {
                     // Handle the error - this means we got a response without a success code. The user probably
                     // entered the wrong username or password
-                    Snackbar.make(mConstraintLayout, "Login failed. smh", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mConstraintLayout, "Login failed. smfh", Snackbar.LENGTH_LONG).show();
                 }
             }
 
