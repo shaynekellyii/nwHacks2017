@@ -25,6 +25,7 @@ import com.nut.nwhacks.triplist.TripListActivity;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static List<String> sTagList;
+    private static List<Integer> sScoreList;
     private static TagListAdapter sAdapter;
     private int mNumTags;
     private LineChartView mLineChartView;
@@ -53,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getScores();
         initializeViews();
+        generateScores();
+        prepareScoresForChart();
+        drawChart();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.VISIBLE);
@@ -81,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeViews() {
         mLineChartView = (LineChartView) findViewById(R.id.lineChart);
-        drawChart();
-
         mListView = (ListView)findViewById(R.id.main_listview);
         sAdapter = new TagListAdapter(this, R.layout.itemlistrow, sTagList);
         mListView.setAdapter(sAdapter);
@@ -111,40 +113,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void drawChart() {
-        Animation anim = new Animation(3000);
+        Animation anim = new Animation(1000);
         mLineChartView.addData(mDataSet);
         mLineChartView.show(anim);
     }
 
-    public void getScores() {
-        // TODO: GET THE SCORES IN STRING[] (dates) AND FLOAT[] FORMAT
-        // Placeholder Data
-        List<String> labels = new ArrayList<>();
-        labels.add("First");
-        labels.add("Second");
-        labels.add("Third");
-        labels.add("Fourth");
-        labels.add("Fifth");
+    private void generateScores() {
+        sScoreList = new ArrayList<>();
+        for (int i = 0; i < sTagList.size(); i++) {
+            sScoreList.add(new Random().nextInt(10));
+        }
+    }
 
+    public static int getScore(int index) {
+        return sScoreList.get(index);
+    }
+
+    public void prepareScoresForChart() {
+        List<String> labels = new ArrayList<>();
+        for (int i = 0; i < sTagList.size(); i++) {
+            labels.add(String.valueOf(i+1));
+        }
         mLabels = new String[labels.size()];
         labels.toArray(mLabels);
 
-        List<Float> values = new ArrayList<>();
-        values.add(39f);
-        values.add(20f);
-        values.add(60f);
-        values.add(90f);
-        values.add(24f);
-
-        mValues = new Float[values.size()];
-        values.toArray(mValues);
+        List<Float> floatScores = new ArrayList<>();
+        for (int i = 0; i < sScoreList.size(); i++) {
+            floatScores.add(sScoreList.get(i) * 1.0f);
+        }
+        mValues = new Float[floatScores.size()];
+        floatScores.toArray(mValues);
         addEntries();
     }
 
     private void addEntries() {
         mDataSet = new LineSet();
-        mDataSet.setColor(Color.parseColor("#0080ff"))
-                .setFill(Color.parseColor("#0080ff"))
+        mDataSet.setColor(Color.parseColor(getResources().getString(0+R.color.colorAccent)))
+                .setFill(Color.parseColor(getResources().getString(0+R.color.colorPrimaryDark)))
                 .setSmooth(true);
 
         if (mLabels.length == mValues.length) {
