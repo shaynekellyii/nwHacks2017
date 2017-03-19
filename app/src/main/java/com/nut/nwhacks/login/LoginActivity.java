@@ -67,12 +67,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     // Success! Log the user in!
-                    Snackbar.make(mConstraintLayout, "Login successful.", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mConstraintLayout, "Login successful @jefking", Snackbar.LENGTH_LONG).show();
                     goToMainActivity();
                 } else {
                     // Handle the error - this means we got a response without a success code. The user probably
                     // entered the wrong username or password
-                    Snackbar.make(mConstraintLayout, "Login failed. smh", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mConstraintLayout, "Login failed. smfh", Snackbar.LENGTH_LONG).show();
                 }
             }
 
