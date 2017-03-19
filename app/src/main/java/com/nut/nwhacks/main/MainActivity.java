@@ -128,8 +128,10 @@ public class MainActivity extends BaseActivity {
 
     public void drawChart() {
         Animation anim = new Animation(1000);
-        mLineChartView.addData(mDataSet);
-        mLineChartView.show(anim);
+        if (mDataSet != null) {
+            mLineChartView.addData(mDataSet);
+            mLineChartView.show(anim);
+        }
     }
 
     private void generateScores() {
@@ -146,7 +148,7 @@ public class MainActivity extends BaseActivity {
     public void prepareScoresForChart() {
         List<String> labels = new ArrayList<>();
         for (int i = 0; i < sTagList.size(); i++) {
-            labels.add(String.valueOf(i+1));
+            labels.add(String.valueOf(i + 1));
         }
         mLabels = new String[labels.size()];
         labels.toArray(mLabels);
@@ -161,15 +163,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addEntries() {
-        mDataSet = new LineSet();
-        mDataSet.setColor(Color.parseColor(getResources().getString(0+R.color.colorAccent)))
-                .setFill(Color.parseColor(getResources().getString(0+R.color.colorPrimaryDark)))
-                .setSmooth(true);
-
-        if (mLabels.length == mValues.length) {
+        if ((mLabels.length == mValues.length) && mLabels.length != 0) {
+            mDataSet = new LineSet();
             for (int i = 0; i < mValues.length; i++) {
                 mDataSet.addPoint(mLabels[i], mValues[i]);
             }
+            mDataSet.setColor(Color.parseColor(getResources().getString(0+R.color.colorAccent)))
+                    .setFill(Color.parseColor(getResources().getString(0+R.color.colorPrimaryDark)))
+                    .setSmooth(true);
         } else {
             System.out.println("the labels and values aren't the same length");
         }

@@ -28,7 +28,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public void createNotification(View view) {
@@ -52,5 +51,4 @@ public class BaseActivity extends AppCompatActivity {
 
         notificationManager.notify(0, noti);
     }
-
 }
