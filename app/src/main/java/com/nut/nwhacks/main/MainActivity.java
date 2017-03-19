@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.settings.AddTagActivity;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,10 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private ListView mListView;
-
-    private List<String> mTagList;
-    private TagListAdapter mAdapter;
+    private static List<String> sTagList;
+    private static TagListAdapter sAdapter;
     private int mNumTags;
 
     @Override
@@ -39,9 +38,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mListView = (ListView)findViewById(R.id.main_listview);
-        mAdapter = new TagListAdapter(this, R.layout.itemlistrow, mTagList);
-        mListView.setAdapter(mAdapter);
+        ListView listView = (ListView)findViewById(R.id.main_listview);
+        sAdapter = new TagListAdapter(this, R.layout.itemlistrow, sTagList);
+        listView.setAdapter(sAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
     private void getTagsFromPreferences() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         mNumTags = settings.getInt("numTags", 0);
-        mTagList = new LinkedList<>();
+        sTagList = new LinkedList<>();
         for (int i = 0; i < mNumTags; i++) {
-            mTagList.add(settings.getString("tag" + String.valueOf(i), "Default Tag"));
+            sTagList.add(settings.getString("tag" + String.valueOf(i), "Default Tag"));
         }
     }
 
@@ -69,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public List<String> getTagList() {
-        return mTagList;
+        return sTagList != null ? sTagList : new ArrayList<String>();
+    }
+
+    public static void refreshTagList() {
+        sAdapter.notifyDataSetChanged();
     }
 }

@@ -25,6 +25,8 @@
         </activity>
         <activity android:name=".settings.AddTagActivity">
         </activity>
+        <activity android:name=".triplist.TripListActivity">
+        </activity>
     </application>
 
 </manifest>
