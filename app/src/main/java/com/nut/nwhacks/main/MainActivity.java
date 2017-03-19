@@ -19,7 +19,6 @@ import com.db.chart.view.LineChartView;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.logtrip.TagListAdapter;
 import com.nut.nwhacks.settings.AddTagActivity;
-import com.nut.nwhacks.summary.SummaryActivity;
 import com.nut.nwhacks.triplist.TripListActivity;
 
 import java.util.ArrayList;
@@ -159,9 +158,5 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("the labels and values aren't the same length");
         }
-    }
-
-    public void startSummaryActivity(View view) {
-        startActivity(new Intent(this, SummaryActivity.class));
     }
 }
