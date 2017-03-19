@@ -8,17 +8,18 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nut.nwhacks.R;
-import com.nut.nwhacks.logtrip.TagListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TripListActivity extends AppCompatActivity {
 
     private static final String TAG = TripListActivity.class.getSimpleName();
 
     private static List<String> sTripList;
-    private static TagListAdapter sAdapter;
+    private static List<Integer> sScoreList;
+    private static TripListAdapter sAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,10 @@ public class TripListActivity extends AppCompatActivity {
         }
 
         sTripList = buildTripList(tag);
+        generateScores();
 
         ListView listView = (ListView)findViewById(R.id.main_listview);
-        sAdapter = new TagListAdapter(this, R.layout.itemlistrow, sTripList);
+        sAdapter = new TripListAdapter(this, R.layout.itemlistrow, sTripList);
         listView.setAdapter(sAdapter);
     }
 
@@ -53,7 +55,18 @@ public class TripListActivity extends AppCompatActivity {
         return tripList;
     }
 
+    private void generateScores() {
+        sScoreList = new ArrayList<>();
+        for (int i = 0; i < sTripList.size(); i++) {
+            sScoreList.add(new Random().nextInt(10));
+        }
+    }
+
     public static List<String> getTripList() {
         return sTripList != null ? sTripList : new ArrayList<String>();
+    }
+
+    public static Integer getScore(int index) {
+        return sScoreList.get(index);
     }
 }

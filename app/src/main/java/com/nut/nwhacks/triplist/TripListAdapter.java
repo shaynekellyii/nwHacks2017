@@ -1,4 +1,4 @@
-package com.nut.nwhacks.logtrip;
+package com.nut.nwhacks.triplist;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,21 +8,20 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nut.nwhacks.R;
-import com.nut.nwhacks.main.MainActivity;
 
 import java.util.List;
 
 /**
- * Created by skelly on 3/18/17.
+ * Created by skelly on 3/19/17.
  */
 
-public class TagListAdapter extends ArrayAdapter<String> {
+public class TripListAdapter extends ArrayAdapter<String> {
 
-    public TagListAdapter(Context context, int textViewResourceId) {
+    public TripListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public TagListAdapter(Context context, int resource, List<String> items) {
+    public TripListAdapter(Context context, int resource, List<String> items) {
         super(context, resource, items);
     }
 
@@ -46,7 +45,7 @@ public class TagListAdapter extends ArrayAdapter<String> {
             }
             TextView scoreView = (TextView)v.findViewById(R.id.scorelist_textview);
             if (scoreView != null) {
-                scoreView.setText(String.valueOf(MainActivity.getScore(position)));
+                scoreView.setText(String.valueOf(TripListActivity.getScore(position)));
             }
         }
 
