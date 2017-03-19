@@ -19,6 +19,7 @@ import com.db.chart.view.LineChartView;
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.logtrip.TagListAdapter;
 import com.nut.nwhacks.settings.AddTagActivity;
+import com.nut.nwhacks.summary.SummaryActivity;
 import com.nut.nwhacks.triplist.TripListActivity;
 
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 startNewTagActivity();
+
             }
         });
 
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        startActivity(new Intent(this, SummaryActivity.class));
     }
 
     private void initializeViews() {
