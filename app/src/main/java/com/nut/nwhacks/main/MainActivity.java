@@ -30,7 +30,14 @@ import io.moj.java.sdk.MojioClient;
 import io.moj.java.sdk.model.Trip;
 import io.moj.java.sdk.model.Vehicle;
 import io.moj.java.sdk.model.VehicleMeasure;
+import io.moj.java.sdk.model.enums.HarshEventType;
 import io.moj.java.sdk.model.response.ListResponse;
+import io.moj.java.sdk.model.values.BooleanState;
+import io.moj.java.sdk.model.values.FuelLevel;
+import io.moj.java.sdk.model.values.HarshEventState;
+import io.moj.java.sdk.model.values.Location;
+import io.moj.java.sdk.model.values.Rpm;
+import io.moj.java.sdk.model.values.Speed;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +47,8 @@ public class MainActivity extends BaseActivity {
     /**
      * Figure out what we're doing in here
      */
+
+    int score = 100;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -223,9 +232,68 @@ public class MainActivity extends BaseActivity {
             public void onResponse(Call<ListResponse<VehicleMeasure>> call, Response<ListResponse<VehicleMeasure>> response) {
                 if (response.isSuccessful()) {
                     mStates = response.body().getData();
+                    int rpmCount = 0;
+                    int overSpeedCount = 0;
+                    int harshBrakeCount = 0;
+                    float fuelUsed = mStates.get(0).getFuelLevel().getValue()
+                            - mStates.get(9).getFuelLevel().getValue();
+                    for (int i = 0; i < mStates.size(); i++) {
+                        VehicleMeasure vehicleMeasure = mStates.get(i);
+                        Speed speed = vehicleMeasure.getSpeed();
+                        Rpm rpm = vehicleMeasure.getRPM();
+                        HarshEventState harshEventState = vehicleMeasure.getHarshEventState();
+                        FuelLevel fuelLevel = vehicleMeasure.getFuelLevel();
+                        BooleanState accidentState = vehicleMeasure.getAccidentState();
+                        Location location = vehicleMeasure.getLocation();
+
+                        if (accidentState.getValue() == true) {
+                            score = 0;
+                        } else {
+                            if (rpm.getValue() > 2000) {
+
+                                rpmCount = rpmCount + 1;
+                            }
+
+                            if (speed.getValue() > 110) {
+                                overSpeedCount = overSpeedCount + 1;
+                            }
+
+                            if (harshEventState.getEventType() == HarshEventType.DECELERATION) {
+                                harshBrakeCount = harshBrakeCount + 1;
+                                harshBrakeLocation = location;
+
+                            }
+                        }
+
+                    }
+
+                    if (fuelUsed - lastFuelUsed > 0.2) {
+                        if (fuelUsed - lastFuelUsed > 1) {
+                            score = score - 50;
+                        } else if (fuelUsed - lastFuelUsed > 0.5) {
+                            score = score - 30;
+                        } else if (fuelUsed - lastFuelUsed > 0.2) {
+                            score = score - 15;
+                        }
+                    }
+
+                    for (int j = 0; j < harshBrakeCount; j++) {
+                        score = score - 5;
+                    }
+
+                    for (int k = 0; k < rpmCount; k++) {
+                        score = score - 4;
+                    }
+
+                    for (int l = 0; l < overSpeedCount; l++) {
+                        score = score - 5;
+                    }
+
+
                     System.out.println(mStates);
                     // Show the user their vehicles!
-                } else {
+                }
+                else {
                     // Handle the error - this means we got a response without a success code. Are you logged in?
                 }
             }

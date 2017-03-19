@@ -12,13 +12,15 @@ import android.view.View;
 import com.nut.nwhacks.logtrip.LogTripActivity;
 
 import io.moj.java.sdk.MojioClient;
+import io.moj.java.sdk.model.stream.Location;
 
 /**
  * Created by YingYing on 2017-03-19.
  */
 
 public class BaseActivity extends AppCompatActivity {
-
+    public static int lastFuelUsed;
+    public static io.moj.java.sdk.model.values.Location harshBrakeLocation;
     protected static final String APP_ID = "cd8d6364-cff4-4d28-94ea-6ab4b12261d6";
     protected static final String SECRET_KEY = "7f04c40f-e825-45b7-b171-0a1fa0cf7754";
     protected static final String BYPASS_USER = "swifties2017@gmail.com"; // DEBUG
