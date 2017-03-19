@@ -8,7 +8,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nut.nwhacks.R;
-import com.nut.nwhacks.main.TagListAdapter;
+import com.nut.nwhacks.logtrip.TagListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

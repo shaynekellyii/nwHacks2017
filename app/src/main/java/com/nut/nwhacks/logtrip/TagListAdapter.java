@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.nut.nwhacks.R;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by skelly on 3/18/17.
@@ -45,7 +46,7 @@ public class TagListAdapter extends ArrayAdapter<String> {
             }
             TextView scoreView = (TextView)v.findViewById(R.id.scorelist_textview);
             if (scoreView != null) {
-                scoreView.setText("8");
+                scoreView.setText(String.valueOf(new Random().nextInt(10)));
             }
         }
 
