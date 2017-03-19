@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.nut.nwhacks.R;
+import com.nut.nwhacks.main.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ import java.util.List;
  */
 
 public class TagListAdapter extends ArrayAdapter<String> {
+
+    private static List<Integer> sScoreList = new ArrayList<>();
 
     public TagListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
@@ -45,10 +49,14 @@ public class TagListAdapter extends ArrayAdapter<String> {
             }
             TextView scoreView = (TextView)v.findViewById(R.id.scorelist_textview);
             if (scoreView != null) {
-                scoreView.setText("8");
+                scoreView.setText(String.valueOf(MainActivity.getScore(position)));
             }
         }
 
         return v;
+    }
+
+    public static List<Integer> getScoreList() {
+        return sScoreList != null ? sScoreList : new ArrayList<Integer>();
     }
 }

@@ -6,4 +6,5 @@
     <string name="log_your_trip">Log your trip</string>
     <string name="submit_log_trip">Submit</string>
     <string name="no_do_not_log_trip">No, do not log trip</string>
+    <string name="super_secret_google_maps_key">AIzaSyCQEJs8k4AHIo9abY28NTut7O6SfFpC258</string>
 </resources>
