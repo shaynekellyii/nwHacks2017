@@ -51,5 +51,4 @@ public class TagListAdapter extends ArrayAdapter<String> {
 
         return v;
     }
-
 }
