@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         final Context context = this;
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
                 Intent intent = new Intent(context, TripListActivity.class);
