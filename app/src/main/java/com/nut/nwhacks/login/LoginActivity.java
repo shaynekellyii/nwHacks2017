@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 import com.nut.nwhacks.R;
 import com.nut.nwhacks.main.MainActivity;
@@ -27,12 +27,15 @@ public class LoginActivity extends AppCompatActivity {
     // Security lol
     private static final String APP_ID = "5acebfc1-8f79-4753-860e-f761328f0a44";
     private static final String SECRET_KEY = "93e7cc78-910b-4c5b-972a-7cac74d5f324";
+    private static final String BYPASS_USER = "skellyii@sfu.ca"; // DEBUG
+    private static final String BYPASS_PASSWORD = "123456"; // DEBUG
     private MojioClient mMojioClient;
 
     private ConstraintLayout mConstraintLayout;
-    private TextView mUsernameTextView;
-    private TextView mPasswordTextView;
+    private EditText mUsernameEditText;
+    private EditText mPasswordEditText;
     private Button mLoginButton;
+    private Button mLoginBypassButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +50,33 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 keyboard.hideSoftInputFromWindow(getWindow().getAttributes().token, 0);
-                performLoginCall();
+                performLoginCall(false);
+            }
+        });
+        mLoginBypassButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                performLoginCall(true);
             }
         });
     }
 
     private void applyViews() {
         mConstraintLayout = (ConstraintLayout)findViewById(R.id.login_constraintlayout);
-        mUsernameTextView = (TextView)findViewById(R.id.username_edittext);
-        mPasswordTextView = (TextView)findViewById(R.id.password_edittext);
-        mLoginButton = (Button) findViewById(R.id.login_button);
+        mUsernameEditText = (EditText)findViewById(R.id.username_edittext);
+        mPasswordEditText = (EditText)findViewById(R.id.password_edittext);
+        mLoginButton = (Button)findViewById(R.id.login_button);
+        mLoginBypassButton = (Button)findViewById(R.id.login_bypass_button);
     }
 
-    private void performLoginCall() {
-        Call<User> loginCall = mMojioClient.login(
-                mUsernameTextView.getText().toString(), mPasswordTextView.getText().toString());
+    private void performLoginCall(boolean bypass) {
+        Call<User> loginCall;
+        if (bypass) {
+            loginCall = mMojioClient.login(BYPASS_USER, BYPASS_PASSWORD);
+        } else {
+            loginCall = mMojioClient.login(
+                    mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
+        }
         loginCall.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
