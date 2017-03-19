@@ -1,13 +1,17 @@
 package com.nut.nwhacks.triplist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nut.nwhacks.R;
+import com.nut.nwhacks.summary.SummaryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,15 @@ public class TripListActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.main_listview);
         sAdapter = new TripListAdapter(this, R.layout.itemlistrow, sTripList);
         listView.setAdapter(sAdapter);
+
+        final Context context = this;
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?>adapter, View v, int position, long id){
+                Intent intent = new Intent(context, SummaryActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private List<String> buildTripList(String tag) {
