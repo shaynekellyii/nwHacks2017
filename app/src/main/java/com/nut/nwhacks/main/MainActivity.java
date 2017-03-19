@@ -26,6 +26,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import io.moj.java.sdk.MojioClient;
+import io.moj.java.sdk.model.Trip;
+import io.moj.java.sdk.model.Vehicle;
+import io.moj.java.sdk.model.VehicleMeasure;
+import io.moj.java.sdk.model.response.ListResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.nut.nwhacks.login.LoginActivity.getMojioClient;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -43,16 +54,24 @@ public class MainActivity extends AppCompatActivity {
     private String[] mLabels;
     private Float[] mValues;
     private LineSet mDataSet;
-
+    private static List<VehicleMeasure> mStates;
+    private static List<Trip> mTrips;
+    private static List<Vehicle> mVehicles;
+    private MojioClient mMojioClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getTagsFromPreferences();
+        mMojioClient = getMojioClient();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        getVehicles();
+//        getVehicleTrips();
+        getVehicleHistory();
 
         initializeViews();
         generateScores();
@@ -158,5 +177,66 @@ public class MainActivity extends AppCompatActivity {
         } else {
             System.out.println("the labels and values aren't the same length");
         }
+    }
+
+
+    public void getVehicles() {
+        mMojioClient.rest().getVehicles().enqueue(new Callback<ListResponse<Vehicle>>() {
+            @Override
+            public void onResponse(Call<ListResponse<Vehicle>> call, Response<ListResponse<Vehicle>> response) {
+                if (response.isSuccessful()) {
+                    List<Vehicle> vehicles = response.body().getData();
+                    System.out.println(vehicles);
+                    // Show the user their vehicles!
+                } else {
+                    // Handle the error - this means we got a response without a success code. Are you logged in?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListResponse<Vehicle>> call, Throwable t) {
+                // Handle the error - this is caused by a request failure such as loss of network connectivity
+            }
+        });
+    }
+
+    public void getVehicleTrips() {
+        mMojioClient.rest().getTrips().enqueue(new Callback<ListResponse<Trip>>() {
+            @Override
+            public void onResponse(Call<ListResponse<Trip>> call, Response<ListResponse<Trip>> response) {
+                if (response.isSuccessful()) {
+                    List<Trip> trips = response.body().getData();
+                    System.out.println(trips);
+                    // Show the user their vehicles!
+                } else {
+                    // Handle the error - this means we got a response without a success code. Are you logged in?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListResponse<Trip>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getVehicleHistory() {
+        mMojioClient.rest().getTripStates("457f5db7-e075-4f3a-8fdf-1442bc8ed5f1").enqueue(new Callback<ListResponse<VehicleMeasure>>() {
+            @Override
+            public void onResponse(Call<ListResponse<VehicleMeasure>> call, Response<ListResponse<VehicleMeasure>> response) {
+                if (response.isSuccessful()) {
+                    mStates = response.body().getData();
+                    System.out.println(mStates);
+                    // Show the user their vehicles!
+                } else {
+                    // Handle the error - this means we got a response without a success code. Are you logged in?
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ListResponse<VehicleMeasure>> call, Throwable t) {
+
+            }
+        });
     }
 }
